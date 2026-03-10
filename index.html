@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>WOW Production | Thi Công Sự Kiện, POSM & Sân Khấu Tại TP.HCM</title>
+    <meta name="description" content="WOW Creative Production & Decor chuyên thiết kế, thi công sân khấu sự kiện, sản xuất POSM và decor trọn gói tại Bình Chánh, TP.HCM. Xưởng sản xuất trực tiếp giá tốt.">
+    <meta name="keywords" content="thi công sự kiện hcm, decor tại  bình chánh, sản xuất posm giá rẻ, wow production hcm">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "WOW Creative Production & Decor",
+      "image": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30",
+      "url": "https://wowpro.vn",
+      "telephone": "0922246980",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "D13/11N Lê Thị Dung, Vĩnh Lộc A",
+        "addressLocality": "Bình Chánh",
+        "addressRegion": "Hồ Chí Minh",
+        "addressCountry": "VN"
+      }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #FAFAFA;
+            color: #333333;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1a1a1a; }
+        ::-webkit-scrollbar-thumb { background: #FDB813; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d99a0a; }
+        
+        @keyframes ring {
+            0% { transform: rotate(0); }
+            10% { transform: rotate(15deg); }
+            20% { transform: rotate(-15deg); }
+            30% { transform: rotate(15deg); }
+            40% { transform: rotate(-15deg); }
+            50% { transform: rotate(0); }
+            100% { transform: rotate(0); }
+        }
+        .animate-ring { animation: ring 2s infinite; }
+
+        @keyframes scroll {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(10px); opacity: 0; }
+        }
+        .animate-scroll { animation: scroll 1.5s infinite; }
+
+        .leaflet-pane { z-index: 10 !important; }
+        .leaflet-top, .leaflet-bottom { z-index: 10 !important; }
+
+        /* Tùy chỉnh màu cho Swiper (Pagination dots) */
+        .swiper-pagination-bullet { background: #cbd5e1; opacity: 1; width: 10px; height: 10px; }
+        .swiper-pagination-bullet-active { background: #FF4B5A; width: 30px; border-radius: 5px; transition: width 0.3s; }
+
+        /* Tùy chỉnh nút điều hướng mũi tên (Bo tròn, bóng đổ, màu hồng) */
+        .custom-swiper-btn { 
+            color: #FF4B5A !important; 
+            background: white; 
+            width: 40px !important; 
+            height: 40px !important; 
+            border-radius: 50%; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 1px solid #f1f1f1;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 20;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .custom-swiper-btn:hover { background: #FF4B5A; color: white !important; }
+        .custom-swiper-btn::after { font-size: 16px !important; font-weight: 900 !important; font-family: 'Font Awesome 6 Free'; }
+        
+        .partner-prev { left: 0px; }
+        .partner-prev::after { content: '\f053'; } /* Icon Left */
+        
+        .partner-next { right: 0px; }
+        .partner-next::after { content: '\f054'; } /* Icon Right */
+    </style>
+</head>
+<body class="antialiased scroll-smooth overflow-x-hidden">
+
+    <header class="fixed w-full top-0 z-[9999] bg-white/95 backdrop-blur-md shadow-sm p-4 border-b border-gray-100" data-aos="fade-down" data-aos-duration="800">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-3xl font-black tracking-widest uppercase text-gray-900 italic relative z-50">
+                WOW<span class="text-rose-500">.</span>
+            </div>
+            
+            <nav class="hidden md:flex space-x-8 text-sm uppercase tracking-wider font-semibold text-gray-600">
+                <a href="#home" class="hover:text-rose-500 transition duration-300">Trang chủ</a>
+                <a href="#about" class="hover:text-rose-500 transition duration-300">Về chúng tôi</a>
+                <a href="#services" class="hover:text-rose-500 transition duration-300">Dịch vụ</a>
+                <a href="#portfolio" class="hover:text-rose-500 transition duration-300">Dự án</a>
+                <a href="#contact" class="hover:text-rose-500 transition duration-300">Liên hệ</a>
+            </nav>
+            
+            <div class="hidden md:block">
+                <a href="tel:0922246980" class="bg-gray-900 text-white px-6 py-2.5 text-xs font-bold uppercase tracking-widest hover:bg-rose-500 transition duration-300">
+                    <i class="fa-solid fa-phone mr-2"></i>092 224 69 80
+                </a>
+            </div>
+
+            <button id="mobile-menu-btn" class="md:hidden text-2xl text-gray-900 focus:outline-none relative z-50">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <div id="mobile-menu" class="fixed inset-0 z-[10000] bg-[#0f0f0f] hidden flex-col opacity-0 transition-opacity duration-500">
+        
+        <div class="w-full flex justify-between items-center p-6 border-b border-gray-800">
+            <div class="text-3xl font-black tracking-widest uppercase text-white italic">
+                WOW<span class="text-rose-500">.</span>
+            </div>
+            <button id="close-menu-btn" class="text-3xl text-gray-400 hover:text-white transition focus:outline-none">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="flex flex-col w-full px-8 py-10 mt-4">
+            <a href="#home" class="mobile-link text-xl font-medium uppercase tracking-[0.15em] text-gray-300 hover:text-white transition-colors duration-300 border-b border-gray-800 py-6 text-center w-full block">Trang chủ</a>
+            
+            <a href="#about" class="mobile-link text-xl font-medium uppercase tracking-[0.15em] text-gray-300 hover:text-white transition-colors duration-300 border-b border-gray-800 py-6 text-center w-full block">Về WOW</a>
+            
+            <a href="#services" class="mobile-link text-xl font-medium uppercase tracking-[0.15em] text-gray-300 hover:text-white transition-colors duration-300 border-b border-gray-800 py-6 text-center w-full block">Dịch vụ</a>
+            
+            <a href="#portfolio" class="mobile-link text-xl font-medium uppercase tracking-[0.15em] text-gray-300 hover:text-white transition-colors duration-300 border-b border-gray-800 py-6 text-center w-full block">Dự án</a>
+            
+            <a href="#contact" class="mobile-link text-xl font-medium uppercase tracking-[0.15em] text-gray-300 hover:text-white transition-colors duration-300 py-6 text-center w-full block">Liên hệ</a>
+        </div>
+    </div>
+
+    <section id="home" class="relative h-screen w-full bg-black overflow-hidden">
+        
+        <div class="swiper heroSwiper w-full h-full relative z-0">
+            <div class="swiper-wrapper w-full h-full">
+                
+                <div class="swiper-slide w-full h-full relative flex items-center justify-end px-6 md:px-24 pt-20">
+                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover z-0" alt="Thi công sự kiện chuyên nghiệp WOW Production">
+                    <div class="absolute inset-0 bg-gradient-to-l from-black/90 via-black/50 to-black/80 z-10 pointer-events-none"></div>
+                    <div class="relative z-20 text-right max-w-4xl">
+                        <h1 class="text-4xl md:text-6xl lg:text-7xl text-white leading-[1.3] tracking-wide">
+                            <span class="font-light">WOW Production -</span> <br>
+                            <span class="font-black text-[#FDB813]">Thi Công Sự Kiện & Decor Trọn Gói</span>
+                    </div>
+                </div>
+
+                <div class="swiper-slide w-full h-full relative flex items-center justify-end px-6 md:px-24 pt-20">
+                    <img src="https://images.unsplash.com/photo-1511556532299-8f662fc26c06?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover z-0" alt="Sản xuất POSM và Booth quảng cáo">
+                    <div class="absolute inset-0 bg-gradient-to-l from-black/90 via-black/50 to-black/80 z-10 pointer-events-none"></div>
+                    <div class="relative z-20 text-right max-w-4xl">
+                        <h1 class="text-4xl md:text-6xl lg:text-7xl text-white leading-[1.3] tracking-wide">
+                            <span class="font-light">Đột phá ý tưởng,</span> <br>
+                            <span class="font-black text-[#FDB813]">nâng tầm thương hiệu của bạn</span>
+                        </h1>
+                    </div>
+                </div>
+
+                <div class="swiper-slide w-full h-full relative flex items-center justify-end px-6 md:px-24 pt-20">
+                    <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover z-0" alt="Sự kiện 3">
+                    <div class="absolute inset-0 bg-gradient-to-l from-black/90 via-black/50 to-black/80 z-10 pointer-events-none"></div>
+                    <div class="relative z-20 text-right max-w-4xl">
+                        <h1 class="text-4xl md:text-6xl lg:text-7xl text-white leading-[1.3] tracking-wide">
+                            <span class="font-light">Không gian hoàn mỹ,</span> <br>
+                            <span class="font-black text-[#FDB813]">trải nghiệm đỉnh cao</span>
+                        </h1>
+                    </div>
+                </div>
+
+            </div>
+            <div class="swiper-pagination !bottom-24"></div>
+        </div>
+
+        <div class="absolute bottom-10 left-6 md:left-10 z-20 flex space-x-4" data-aos="fade-right" data-aos-delay="400">
+            <a href="#" class="w-10 h-10 bg-[#FDB813] rounded-full flex items-center justify-center text-black hover:bg-white transition duration-300 shadow-lg">
+                <i class="fa-brands fa-twitter text-lg"></i>
+            </a>
+            <a href="https://www.facebook.com/wowpro.vn" target="_blank" class="w-10 h-10 bg-[#FDB813] rounded-full flex items-center justify-center text-black hover:bg-white transition duration-300 shadow-lg">
+                <i class="fa-brands fa-facebook-f text-lg"></i>
+            </a>
+        </div>
+
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center" data-aos="fade-up" data-aos-delay="600">
+            <div class="w-6 h-10 border-2 border-[#FDB813] rounded-full flex justify-center p-1">
+                <div class="w-1 h-2 bg-[#FDB813] rounded-full animate-scroll"></div>
+            </div>
+        </div>
+        
+    </section>
+
+    <section id="about" class="py-24 px-6 bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div data-aos="fade-right">
+                    <p class="text-rose-500 text-xs font-bold uppercase tracking-widest mb-3">Triết lý của WOW</p>
+                    <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tight mb-6 leading-tight">Chuyên nghiệp <br>từ những chi tiết nhỏ nhất.</h2>
+                    <p class="text-gray-400 leading-relaxed mb-8">
+                        <strong>WOW Creative Production & Decor</strong> là đơn vị hàng đầu tại <strong>Bình Chánh, TP.HCM</strong> chuyên cung cấp giải pháp thiết kế và thi công trọn gói. Với xưởng sản xuất trực tiếp rộng lớn, chúng tôi cam kết chất lượng tốt nhất cho các dịch vụ: <strong>thi công sự kiện</strong>, sản xuất <strong>quảng cáo POSM</strong> chuyên nghiệp. Đội ngũ thợ lành nghề của WOW giúp khách hàng tối ưu chi phí và kiểm soát 100% tiến độ lắp đặt.
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 gap-6" data-aos="fade-left">
+                    <div class="bg-gray-800 p-8 text-center border-t-4 border-rose-500">
+                        <h4 class="text-5xl font-black text-white mb-2">05<span class="text-rose-500">+</span></h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold text-gray-400">Năm Kinh Nghiệm</p>
+                    </div>
+                    <div class="bg-gray-800 p-8 text-center border-t-4 border-gray-600 mt-8">
+                        <h4 class="text-5xl font-black text-white mb-2">300<span class="text-rose-500">+</span></h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold text-gray-400">Dự Án Hoàn Thành</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-24 px-6 bg-white">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-4xl font-black mb-16 text-gray-900 uppercase tracking-wide" data-aos="fade-up">Lĩnh Vực Hoạt Động</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-10 border border-gray-100 hover:border-rose-300 transition bg-gray-50/50 text-left" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-gray-900 font-black mb-4 uppercase text-xl">Quảng Cáo & POSM</h3>
+                    <p class="text-sm text-gray-600 mb-6">Sản xuất và lắp đặt chuyên nghiệp các hạng mục nhận diện thương hiệu.</p>
+                </div>
+                <div class="p-10 border border-gray-100 hover:border-rose-300 transition bg-gray-50/50 text-left" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-gray-900 font-black mb-4 uppercase text-xl">Sự Kiện & Sân Khấu</h3>
+                    <p class="text-sm text-gray-600 mb-6">Cung cấp giải pháp thi công sân khấu, backdrop sự kiện hoành tráng.</p>
+                </div>
+                <div class="p-10 border border-gray-100 hover:border-rose-300 transition bg-gray-50/50 text-left" data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="text-gray-900 font-black mb-4 uppercase text-xl">Cho Thuê Thiết Bị</h3>
+                    <p class="text-sm text-gray-600 mb-6">Cung cấp, cho thuê âm thanh, ánh sáng, màn hình LED và các trang thiết bị sự kiện chuyên nghiệp.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="py-24 px-6 bg-[#111111] text-white overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-black uppercase tracking-wide mb-4" data-aos="fade-up">Dự Án Tiêu Biểu</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto text-sm" data-aos="fade-up" data-aos-delay="100">
+                    Xưởng sản xuất trực tiếp Booth quảng cáo, POSM và thi công trọn gói sự kiện tại HCM.
+                </p>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-4 md:gap-8 mb-12" data-aos="fade-up" data-aos-delay="200" id="filter-buttons">
+                <button class="filter-btn active text-rose-500 border-b-2 border-rose-500 pb-1 text-xs font-bold uppercase tracking-widest transition outline-none" data-filter="all">Tất Cả</button>
+                <button class="filter-btn text-gray-500 hover:text-rose-500 pb-1 text-xs font-bold uppercase tracking-widest transition border-b-2 border-transparent hover:border-rose-500 outline-none" data-filter="posm">Quảng Cáo & POSM</button>
+                <button class="filter-btn text-gray-500 hover:text-rose-500 pb-1 text-xs font-bold uppercase tracking-widest transition border-b-2 border-transparent hover:border-rose-500 outline-none" data-filter="event">Sự Kiện & Sân Khấu</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="portfolio-grid">
+                
+                <a href="album-booth.html" class="project-item posm group relative overflow-hidden aspect-square bg-gray-800 block transition-all duration-500" data-aos="fade-up">
+                    <img src="images/QuangCao&POSM/Booth&POSM/tech.jpg" alt="Thi công Booth triển lãm Techcombank - WOW Production" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-8 pointer-events-none">
+                        <p class="text-rose-500 text-[10px] font-bold uppercase tracking-widest mb-2">Quảng Cáo & POSM</p>
+                        <h3 class="text-xl font-bold uppercase tracking-wide text-white">Booth & POSM</h3>
+                        <span class="text-gray-400 text-[10px] mt-2 italic group-hover:text-white transition-colors underline decoration-rose-500/50">Bấm để xem chi tiết dự án</span>
+                    </div>
+                </a>
+
+                <a href="album-quayke.html" class="project-item posm group relative overflow-hidden aspect-square bg-gray-800 block transition-all duration-500" data-aos="fade-up" data-aos-delay="100">
+                    <img src="images/QuangCao&POSM/QuayKeTrungBay/kymdan.jpg" alt="Sản xuất quầy kệ trưng bày Kymdan - WOW Production" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-8 pointer-events-none">
+                        <p class="text-rose-500 text-[10px] font-bold uppercase tracking-widest mb-2">Quảng Cáo & POSM</p>
+                        <h3 class="text-xl font-bold uppercase tracking-wide text-white">Quầy Kệ Trưng Bày</h3>
+                        <span class="text-gray-400 text-[10px] mt-2 italic group-hover:text-white transition-colors underline decoration-rose-500/50">Bấm để xem chi tiết dự án</span>
+                    </div>
+                </a>
+
+                <a href="album-logo.html" class="project-item posm group relative overflow-hidden aspect-square bg-gray-800 block transition-all duration-500" data-aos="fade-up" data-aos-delay="200">
+                    <img src="images/QuangCao&POSM/Logo/logoHBG.jpg" alt="Thi công biển hiệu và logo WOW Production" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-8 pointer-events-none">
+                        <p class="text-rose-500 text-[10px] font-bold uppercase tracking-widest mb-2">Quảng Cáo & POSM</p>
+                        <h3 class="text-xl font-bold uppercase tracking-wide text-white">Biển Hiệu & Logo</h3>
+                        <span class="text-gray-400 text-[10px] mt-2 italic group-hover:text-white transition-colors underline decoration-rose-500/50">Bấm để xem chi tiết dự án</span>
+                    </div>
+                </a>
+
+                <a href="album-sankhau.html" class="project-item event group relative overflow-hidden aspect-square bg-gray-800 block transition-all duration-500" data-aos="fade-up" data-aos-delay="300">
+                    <img src="images/SuKien&SanKhau/SanKhau/uel.jpg" alt="Thi công sân khấu kỷ niệm 25 năm UEL - WOW Production" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-8 pointer-events-none">
+                        <p class="text-rose-500 text-[10px] font-bold uppercase tracking-widest mb-2">Sự Kiện & Sân Khấu</p>
+                        <h3 class="text-xl font-bold uppercase tracking-wide text-white">Sân Khấu</h3>
+                        <span class="text-gray-400 text-[10px] mt-2 italic group-hover:text-white transition-colors underline decoration-rose-500/50">Bấm để xem chi tiết dự án</span>
+                    </div>
+                </a>
+
+                <a href="album-backdrop.html" class="project-item event group relative overflow-hidden aspect-square bg-gray-800 block transition-all duration-500" data-aos="fade-up" data-aos-delay="400">
+                    <img src="images/SuKien&SanKhau/Backdrop&Checkin/FeelHoiana.jpg" alt="Thiết kế thi công backdrop check-in Feel Hoiana 3D" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-8 pointer-events-none">
+                        <p class="text-rose-500 text-[10px] font-bold uppercase tracking-widest mb-2">Sự Kiện & Sân Khấu</p>
+                        <h3 class="text-xl font-bold uppercase tracking-wide text-white">Backdrop & Check-in</h3>
+                        <span class="text-gray-400 text-[10px] mt-2 italic group-hover:text-white transition-colors underline decoration-rose-500/50">Bấm để xem chi tiết dự án</span>
+                    </div>
+                </a>
+
+                <a href="album-decor.html" class="project-item event group relative overflow-hidden aspect-square bg-gray-800 block transition-all duration-500" data-aos="fade-up" data-aos-delay="500">
+                    <img src="images/SuKien&SanKhau/Decor/vikki.jpg" alt="Trang trí tiểu cảnh Tết Vikki hoành tráng" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-8 pointer-events-none">
+                        <p class="text-rose-500 text-[10px] font-bold uppercase tracking-widest mb-2">Sự Kiện & Sân Khấu</p>
+                        <h3 class="text-xl font-bold uppercase tracking-wide text-white">Trang Trí (Decor)</h3>
+                        <span class="text-gray-400 text-[10px] mt-2 italic group-hover:text-white transition-colors underline decoration-rose-500/50">Bấm để xem chi tiết dự án</span>
+                    </div>
+                </a> 
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-white border-t border-b border-gray-100 overflow-hidden relative">
+        <div class="max-w-7xl mx-auto text-center">
+            
+            <h2 class="text-3xl md:text-4xl font-black uppercase text-gray-900 tracking-wide mb-4 px-6" data-aos="fade-up">
+                Niềm Tin Thương Hiệu
+            </h2>
+            
+            <p class="text-lg md:text-xl font-medium text-gray-500 italic mb-16 px-6" data-aos="fade-up" data-aos-delay="100">
+                "Tự hào đồng hành cùng sự tỏa sáng của các thương hiệu hàng đầu."
+            </p>
+            
+            <div class="relative max-w-6xl mx-auto px-12 md:px-16" data-aos="fade-up" data-aos-delay="200">
+                
+                <div class="swiper-container partnerSwiper-fixed w-full">
+                    <div class="swiper-wrapper py-6">
+                        
+                        <div class="swiper-slide">
+                            <div class="h-28 md:h-36 flex items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-xl shadow-sm hover:border-rose-400 hover:shadow-md transition-all duration-300">
+                                <img src="viettel.png" alt="Đối tác Viettel - WOW Production" class="h-10 md:h-14 w-auto object-contain transition duration-300 hover:scale-110">
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="h-28 md:h-36 flex items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-xl shadow-sm hover:border-rose-400 hover:shadow-md transition-all duration-300">
+                                <img src="vietcombank.png" alt="Đối tác Vietcombank - WOW Production" class="h-10 md:h-14 w-auto object-contain transition duration-300 hover:scale-110">
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="h-28 md:h-36 flex items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-xl shadow-sm hover:border-rose-400 hover:shadow-md transition-all duration-300">
+                                <img src="fpt.png" alt="Đối tác FPT - WOW Production" class="h-10 md:h-14 w-auto object-contain transition duration-300 hover:scale-110">
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="h-28 md:h-36 flex items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-xl shadow-sm hover:border-rose-400 hover:shadow-md transition-all duration-300">
+                                <img src="techcombank.png" alt="Đối tác Techcombank - WOW Production" class="h-10 md:h-14 w-auto object-contain transition duration-300 hover:scale-110">
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="h-28 md:h-36 flex items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-xl shadow-sm hover:border-rose-400 hover:shadow-md transition-all duration-300">
+                                <img src="sacombank.png" alt="Đối tác Sacombank - WOW Production" class="h-10 md:h-14 w-auto object-contain transition duration-300 hover:scale-110">
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="h-28 md:h-36 flex items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-xl shadow-sm hover:border-rose-400 hover:shadow-md transition-all duration-300">
+                                <img src="mb.png" alt="Đối tác MB Bank - WOW Production" class="h-10 md:h-14 w-auto object-contain transition duration-300 hover:scale-110">
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <div class="h-28 md:h-36 flex items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-xl shadow-sm hover:border-rose-400 hover:shadow-md transition-all duration-300">
+                                <img src="shb.png" alt="Đối tác SHB - WOW Production" class="h-10 md:h-14 w-auto object-contain transition duration-300 hover:scale-110">
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="h-28 md:h-36 flex items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-xl shadow-sm hover:border-rose-400 hover:shadow-md transition-all duration-300">
+                                <img src="latien.jpg" alt="Đối tác La Tiên Villa - WOW Production" class="h-10 md:h-14 w-auto object-contain transition duration-300 hover:scale-110">
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="h-28 md:h-36 flex items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-xl shadow-sm hover:border-rose-400 hover:shadow-md transition-all duration-300">
+                                <img src="OIP.jpg" alt="Đối tác Tourism Australia - WOW Production" class="h-10 md:h-14 w-auto object-contain transition duration-300 hover:scale-110">
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="h-28 md:h-36 flex items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-xl shadow-sm hover:border-rose-400 hover:shadow-md transition-all duration-300">
+                                <img src="vikkibank.jpg" alt="Đối tác Vikki Digital Bank - WOW Production" class="h-10 md:h-14 w-auto object-contain transition duration-300 hover:scale-110">
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="h-28 md:h-36 flex items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-xl shadow-sm hover:border-rose-400 hover:shadow-md transition-all duration-300">
+                                <img src="gamudaland.png" alt="Đối tác Gamuda Land - WOW Production" class="h-10 md:h-14 w-auto object-contain transition duration-300 hover:scale-110">
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="h-28 md:h-36 flex items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-xl shadow-sm hover:border-rose-400 hover:shadow-md transition-all duration-300">
+                                <img src="uel.jpg" alt="Đối tác UEL - WOW Production" class="h-10 md:h-14 w-auto object-contain transition duration-300 hover:scale-110">
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="swiper-pagination !-bottom-8"></div>
+                </div>
+
+                <div class="custom-swiper-btn partner-prev"></div>
+                <div class="custom-swiper-btn partner-next"></div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="pt-24 pb-12 px-6 bg-white border-t border-gray-100 relative z-10">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-4xl font-black mb-4 text-gray-900 uppercase tracking-wide" data-aos="fade-up">Liên Hệ WOW</h2>
+            <p class="text-gray-500 max-w-2xl mx-auto mb-16" data-aos="fade-up" data-aos-delay="100">
+                Bạn đã có ý tưởng? Hãy liên hệ ngay qua điện thoại hoặc email để chúng tôi tư vấn, khảo sát và lên dự toán sản xuất chi tiết nhất.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <a href="tel:0922246980" class="block p-10 border border-gray-100 bg-gray-50/50 hover:border-rose-300 hover:shadow-xl transition duration-300 group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl group-hover:bg-rose-500 group-hover:text-white transition duration-300">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <h3 class="font-bold uppercase tracking-widest text-sm text-gray-900 mb-3 group-hover:text-rose-500 transition duration-300">Điện thoại</h3>
+                    <p class="text-gray-600 text-xl font-bold group-hover:text-gray-900 transition duration-300">092 224 69 80</p>
+                </a>
+                
+                <a href="mailto:contact@wow.vn" class="block p-10 border border-gray-100 bg-gray-50/50 hover:border-rose-300 hover:shadow-xl transition duration-300 group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl group-hover:bg-rose-500 group-hover:text-white transition duration-300">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <h3 class="font-bold uppercase tracking-widest text-sm text-gray-900 mb-3 group-hover:text-rose-500 transition duration-300">Email</h3>
+                    <p class="text-gray-600 text-lg font-medium group-hover:text-gray-900 transition duration-300">contact@wow.vn</p>
+                </a>
+
+                <a href="https://www.google.com/maps/place/WoW+Production/@10.8361409,106.5748539,15z/data=!4m6!3m5!1s0x31752b0040a9e1fb:0x13e9bd9989d26deb!8m2!3d10.8361409!4d106.5748539!16s%2Fg%2F11x8vt88w_?entry=ttu&g_ep=EgoyMDI2MDMwNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="block p-10 border border-gray-100 bg-gray-50/50 hover:border-rose-300 hover:shadow-xl transition duration-300 group" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-16 h-16 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl group-hover:bg-rose-500 group-hover:text-white transition duration-300">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <h3 class="font-bold uppercase tracking-widest text-sm text-gray-900 mb-3 group-hover:text-rose-500 transition duration-300">Địa chỉ xưởng</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed font-medium px-4 group-hover:text-gray-900 transition duration-300">
+                        D13/11N Lê Thị Dung, Vĩnh Lộc A, Bình Chánh, HCM
+                    </p>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="w-full bg-white pb-24 relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <h3 class="text-2xl font-medium text-[#D4AF37] mb-6" data-aos="fade-up">Xem trên bản đồ</h3>
+            <div class="border border-gray-200 shadow-sm rounded-md overflow-hidden relative z-10">
+                <div id="map" class="w-full h-[450px] bg-gray-100"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-950 text-white pt-20 pb-10 px-6 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+            <div>
+                <div class="text-3xl font-black tracking-widest uppercase italic mb-6">
+                    WOW<span class="text-rose-500">.</span>
+                </div>
+                <p class="text-gray-400 text-sm leading-relaxed mb-6 max-w-md">
+                    WOW Creative Production & Decor chuyên cung cấp giải pháp thi công không gian sự kiện, quảng cáo trực tiếp tại xưởng.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="https://www.facebook.com/wowpro.vn" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-rose-500 transition"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+            </div>
+            
+            <div class="md:justify-self-end">
+                <h4 class="text-sm font-bold uppercase tracking-widest mb-6 border-b border-gray-800 pb-2 inline-block">Thông tin liên hệ</h4>
+                <ul class="text-gray-400 text-sm space-y-4">
+                    <li class="flex items-start group">
+                        <i class="fa-solid fa-location-dot mt-1 mr-3 text-rose-500"></i>
+                        <span>D13/11N Lê Thị Dung, ấp 4A, Vĩnh Lộc A, Bình Chánh, HCM</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fa-solid fa-phone mr-3 text-rose-500"></i>
+                        <a href="tel:0922246980" class="hover:text-rose-500 transition">092 224 69 80</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto border-t border-gray-900 pt-8 text-center text-gray-500 text-xs font-semibold tracking-wider uppercase">
+            <p>© 2026 WOW PRODUCTION & DECOR. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <div class="fixed bottom-6 right-6 z-[9000] flex flex-col gap-3">
+        <a href="https://m.me/wowpro.vn" target="_blank" class="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition duration-300">
+            <i class="fa-brands fa-facebook-messenger"></i>
+        </a>
+        
+        <a href="https://zalo.me/0922246980" target="_blank" class="w-14 h-14 bg-blue-500 text-white rounded-full flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition duration-300">
+            <i class="fa-solid fa-comment-dots"></i>
+        </a>
+        
+        <a href="tel:0922246980" class="w-14 h-14 bg-rose-500 text-white rounded-full flex items-center justify-center text-xl shadow-lg animate-ring hover:bg-gray-900 transition duration-300">
+            <i class="fa-solid fa-phone"></i>
+        </a>
+    </div>
+
+    <div id="lightbox-modal" class="fixed inset-0 z-[10000] bg-black/95 hidden flex flex-col items-center justify-center transition-opacity duration-300 opacity-0 relative">
+        <button id="lightbox-close" class="absolute top-6 right-8 text-white text-5xl hover:text-rose-500 transition cursor-pointer">×</button>
+        <div class="relative max-w-[90vw] max-h-[80vh] flex items-center justify-center">
+            <img id="lightbox-img" src="" class="max-h-[80vh] w-auto object-contain transform scale-95 transition-transform duration-300 shadow-2xl relative">
+        </div>
+        <div id="lightbox-caption" class="text-white font-bold tracking-widest uppercase text-xl mt-6 text-center"></div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <script>
+        AOS.init({ once: true, offset: 50, duration: 800 });
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // --- XỬ LÝ HERO SLIDER ---
+            new Swiper(".heroSwiper", {
+                loop: true,               
+                grabCursor: true,         
+                speed: 800,               
+                autoplay: { delay: 4000, disableOnInteraction: false },
+                pagination: { el: ".swiper-pagination", clickable: true } 
+            });
+
+            // --- KHỞI TẠO ĐỐI TÁC SLIDER MỚI (VÒNG LẶP VÔ HẠN HOÀN HẢO) ---
+            new Swiper(".partnerSwiper-fixed", {
+                loop: true,               // Bật vòng lặp
+                slidesPerView: 2,         // Số logo trên điện thoại
+                spaceBetween: 20,         // Khoảng cách giữa các hộp
+                speed: 800,               
+                autoplay: { delay: 3000, disableOnInteraction: false }, 
+                pagination: { el: ".swiper-pagination", clickable: true }, 
+                navigation: { nextEl: ".partner-next", prevEl: ".partner-prev" }, // Gọi 2 nút mũi tên
+                breakpoints: {            // Cấu hình responsive
+                    640: { slidesPerView: 3, spaceBetween: 20 },
+                    768: { slidesPerView: 3, spaceBetween: 30 },
+                    1024: { slidesPerView: 4, spaceBetween: 40 }
+                }
+            });
+
+            // --- BẢN ĐỒ ---
+            var lat = 10.8361409;
+            var lng = 106.5748539;
+            var map = L.map('map', { scrollWheelZoom: false }).setView([lat, lng], 16);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '© OpenStreetMap' }).addTo(map);
+
+            var redIcon = L.divIcon({
+                className: 'custom-div-icon',
+                html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="30" height="40"><path fill="#e11d48" d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"/></svg>`,
+                iconSize: [30, 40],
+                iconAnchor: [15, 40],
+                popupAnchor: [0, -40]
+            });
+
+            var marker = L.marker([lat, lng], {icon: redIcon}).addTo(map);
+            marker.bindPopup(`<div style="font-family: Montserrat, sans-serif; padding: 5px;"><b style="font-size: 14px; color: #333;">WOW Production</b><br><span style="font-size: 12px; color: #666; display: inline-block; margin-top: 5px;">D13/11N Lê Thị Dung, ấp 4A, Vĩnh Lộc A,<br>Bình Chánh, Hồ Chí Minh</span></div>`, { autoClose: false, closeOnClick: false }).openPopup();
+            setTimeout(function(){ map.invalidateSize(); }, 500);
+
+            // --- MENU MOBILE ---
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+            let isMenuOpen = false;
+
+            function openMenu() {
+                isMenuOpen = true;
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.classList.add('flex'); 
+                setTimeout(() => mobileMenu.classList.remove('opacity-0'), 10);
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMenu() {
+                isMenuOpen = false;
+                mobileMenu.classList.add('opacity-0');
+                setTimeout(() => { 
+                    mobileMenu.classList.add('hidden'); 
+                    mobileMenu.classList.remove('flex'); 
+                }, 300);
+                document.body.style.overflow = 'auto';
+            }
+
+            // Gán sự kiện cho các nút bấm
+            mobileBtn.addEventListener('click', openMenu);
+            closeMenuBtn.addEventListener('click', closeMenu);
+            mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+            // --- LỌC DỰ ÁN ---
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const projectItems = document.querySelectorAll('.project-item');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => {
+                        btn.classList.remove('text-rose-500', 'border-rose-500');
+                        btn.classList.add('text-gray-500', 'border-transparent');
+                    });
+                    button.classList.add('text-rose-500', 'border-rose-500');
+                    button.classList.remove('text-gray-500', 'border-transparent');
+
+                    const filterValue = button.getAttribute('data-filter');
+
+                    projectItems.forEach(item => {
+                        if (filterValue === 'all' || item.classList.contains(filterValue)) {
+                            item.style.display = 'block';
+                            setTimeout(() => { item.style.opacity = '1'; item.style.transform = 'scale(1)'; }, 50);
+                        } else {
+                            item.style.opacity = '0'; item.style.transform = 'scale(0.8)';
+                            setTimeout(() => { item.style.display = 'none'; }, 300);
+                        }
+                    });
+                });
+            });
+
+            // --- LIGHTBOX DỰ ÁN ---
+            const lightboxModal = document.getElementById('lightbox-modal');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            const lightboxClose = document.getElementById('lightbox-close');
+
+            const allProjectImages = document.querySelectorAll('.project-item img');
+            allProjectImages.forEach(img => {
+                img.addEventListener('click', function() {
+                    const imgSrc = this.src;
+                    const imgTitle = this.closest('.project-item').querySelector('h3').innerText;
+                    
+                    lightboxImg.src = imgSrc;
+                    lightboxCaption.innerText = imgTitle;
+                    
+                    lightboxModal.classList.remove('hidden');
+                    setTimeout(() => {
+                        lightboxModal.classList.remove('opacity-0');
+                        lightboxImg.classList.remove('scale-95');
+                        lightboxImg.classList.add('scale-100');
+                    }, 10);
+                });
+            });
+
+            function closeLightbox() {
+                lightboxModal.classList.add('opacity-0');
+                lightboxImg.classList.remove('scale-100');
+                lightboxImg.classList.add('scale-95');
+                setTimeout(() => { lightboxModal.classList.add('hidden'); }, 300);
+            }
+
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightboxModal.addEventListener('click', function(e) {
+                if(e.target === lightboxModal || e.target.tagName === 'DIV') { closeLightbox(); }
+            });
+        });
+        let currentAlbum = [];
+        let currentIndex = 0;
+
+        // Hàm mở Album
+        function openAlbum(albumId) {
+            const albumContainer = document.getElementById(albumId);
+            const images = albumContainer.querySelectorAll('[data-src]');
+            
+            // Thu thập danh sách ảnh trong mục
+            currentAlbum = Array.from(images).map(img => ({
+                src: img.getAttribute('data-src'),
+                caption: img.getAttribute('data-cap')
+            }));
+            
+            currentIndex = 0;
+            updateLightbox();
+        }
+
+        // Hàm cập nhật nội dung Lightbox
+        function updateLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            
+            img.src = currentAlbum[currentIndex].src;
+            caption.innerText = currentAlbum[currentIndex].caption;
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                img.classList.add('scale-100');
+            }, 10);
+        }
+
+        // Sự kiện bấm vào ảnh trong Lightbox để chuyển sang ảnh tiếp theo
+        document.getElementById('lightbox-img').addEventListener('click', function(e) {
+            e.stopPropagation(); // Ngăn đóng modal khi bấm vào ảnh
+            currentIndex = (currentIndex + 1) % currentAlbum.length;
+            updateLightbox();
+        });
+    </script>
+</body>
+</html>
