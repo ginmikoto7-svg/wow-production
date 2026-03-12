@@ -64,11 +64,8 @@
         .leaflet-pane { z-index: 10 !important; }
         .leaflet-top, .leaflet-bottom { z-index: 10 !important; }
 
-        /* Tùy chỉnh màu cho Swiper (Pagination dots) */
         .swiper-pagination-bullet { background: #cbd5e1; opacity: 1; width: 10px; height: 10px; }
         .swiper-pagination-bullet-active { background: #FF4B5A; width: 30px; border-radius: 5px; transition: width 0.3s; }
-
-        /* Tùy chỉnh nút điều hướng mũi tên (Bo tròn, bóng đổ, màu hồng) */
         .custom-swiper-btn { 
             color: #FF4B5A !important; 
             background: white; 
@@ -91,10 +88,10 @@
         .custom-swiper-btn::after { font-size: 16px !important; font-weight: 900 !important; font-family: 'Font Awesome 6 Free'; }
         
         .partner-prev { left: 0px; }
-        .partner-prev::after { content: '\f053'; } /* Icon Left */
+        .partner-prev::after { content: '\f053'; } 
         
         .partner-next { right: 0px; }
-        .partner-next::after { content: '\f054'; } /* Icon Right */
+        .partner-next::after { content: '\f054'; } 
     </style>
 </head>
 <body class="antialiased scroll-smooth overflow-x-hidden">
@@ -443,12 +440,12 @@
                     <p class="text-gray-600 text-xl font-bold group-hover:text-gray-900 transition duration-300">092 224 69 80</p>
                 </a>
                 
-                <a href="mailto:contact@wow.vn" class="block p-10 border border-gray-100 bg-gray-50/50 hover:border-rose-300 hover:shadow-xl transition duration-300 group" data-aos="fade-up" data-aos-delay="200">
+                <a href="mailto:wowpro@wowpro.vn" class="block p-10 border border-gray-100 bg-gray-50/50 hover:border-rose-300 hover:shadow-xl transition duration-300 group" data-aos="fade-up" data-aos-delay="200">
                     <div class="w-16 h-16 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl group-hover:bg-rose-500 group-hover:text-white transition duration-300">
                         <i class="fa-solid fa-envelope"></i>
                     </div>
                     <h3 class="font-bold uppercase tracking-widest text-sm text-gray-900 mb-3 group-hover:text-rose-500 transition duration-300">Email</h3>
-                    <p class="text-gray-600 text-lg font-medium group-hover:text-gray-900 transition duration-300">contact@wow.vn</p>
+                    <p class="text-gray-600 text-lg font-medium group-hover:text-gray-900 transition duration-300">wowpro@wowpro.vn</p>
                 </a>
 
                 <a href="https://www.google.com/maps/place/WoW+Production/@10.8361409,106.5748539,15z/data=!4m6!3m5!1s0x31752b0040a9e1fb:0x13e9bd9989d26deb!8m2!3d10.8361409!4d106.5748539!16s%2Fg%2F11x8vt88w_?entry=ttu&g_ep=EgoyMDI2MDMwNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="block p-10 border border-gray-100 bg-gray-50/50 hover:border-rose-300 hover:shadow-xl transition duration-300 group" data-aos="fade-up" data-aos-delay="300">
@@ -522,14 +519,6 @@
         </a>
     </div>
 
-    <div id="lightbox-modal" class="fixed inset-0 z-[10000] bg-black/95 hidden flex flex-col items-center justify-center transition-opacity duration-300 opacity-0 relative">
-        <button id="lightbox-close" class="absolute top-6 right-8 text-white text-5xl hover:text-rose-500 transition cursor-pointer">×</button>
-        <div class="relative max-w-[90vw] max-h-[80vh] flex items-center justify-center">
-            <img id="lightbox-img" src="" class="max-h-[80vh] w-auto object-contain transform scale-95 transition-transform duration-300 shadow-2xl relative">
-        </div>
-        <div id="lightbox-caption" class="text-white font-bold tracking-widest uppercase text-xl mt-6 text-center"></div>
-    </div>
-
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -539,7 +528,6 @@
         
         document.addEventListener("DOMContentLoaded", function() {
             
-            // --- XỬ LÝ HERO SLIDER ---
             new Swiper(".heroSwiper", {
                 loop: true,               
                 grabCursor: true,         
@@ -548,23 +536,21 @@
                 pagination: { el: ".swiper-pagination", clickable: true } 
             });
 
-            // --- KHỞI TẠO ĐỐI TÁC SLIDER MỚI (VÒNG LẶP VÔ HẠN HOÀN HẢO) ---
             new Swiper(".partnerSwiper-fixed", {
-                loop: true,               // Bật vòng lặp
-                slidesPerView: 2,         // Số logo trên điện thoại
-                spaceBetween: 20,         // Khoảng cách giữa các hộp
+                loop: true,               
+                slidesPerView: 2,         
+                spaceBetween: 20,         
                 speed: 800,               
                 autoplay: { delay: 3000, disableOnInteraction: false }, 
                 pagination: { el: ".swiper-pagination", clickable: true }, 
-                navigation: { nextEl: ".partner-next", prevEl: ".partner-prev" }, // Gọi 2 nút mũi tên
-                breakpoints: {            // Cấu hình responsive
+                navigation: { nextEl: ".partner-next", prevEl: ".partner-prev" }, 
+                breakpoints: {            
                     640: { slidesPerView: 3, spaceBetween: 20 },
                     768: { slidesPerView: 3, spaceBetween: 30 },
                     1024: { slidesPerView: 4, spaceBetween: 40 }
                 }
             });
-
-            // --- BẢN ĐỒ ---
+       
             var lat = 10.8361409;
             var lng = 106.5748539;
             var map = L.map('map', { scrollWheelZoom: false }).setView([lat, lng], 16);
@@ -581,8 +567,7 @@
             var marker = L.marker([lat, lng], {icon: redIcon}).addTo(map);
             marker.bindPopup(`<div style="font-family: Montserrat, sans-serif; padding: 5px;"><b style="font-size: 14px; color: #333;">WOW Production</b><br><span style="font-size: 12px; color: #666; display: inline-block; margin-top: 5px;">D13/11N Lê Thị Dung, ấp 4A, Vĩnh Lộc A,<br>Bình Chánh, Hồ Chí Minh</span></div>`, { autoClose: false, closeOnClick: false }).openPopup();
             setTimeout(function(){ map.invalidateSize(); }, 500);
-
-            // --- MENU MOBILE ---
+   
             const mobileBtn = document.getElementById('mobile-menu-btn');
             const closeMenuBtn = document.getElementById('close-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -607,11 +592,10 @@
                 document.body.style.overflow = 'auto';
             }
 
-            // Gán sự kiện cho các nút bấm
             mobileBtn.addEventListener('click', openMenu);
             closeMenuBtn.addEventListener('click', closeMenu);
             mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
-            // --- LỌC DỰ ÁN ---
+            
             const filterButtons = document.querySelectorAll('.filter-btn');
             const projectItems = document.querySelectorAll('.project-item');
 
@@ -636,84 +620,8 @@
                         }
                     });
                 });
-            });
-
-            // --- LIGHTBOX DỰ ÁN ---
-            const lightboxModal = document.getElementById('lightbox-modal');
-            const lightboxImg = document.getElementById('lightbox-img');
-            const lightboxCaption = document.getElementById('lightbox-caption');
-            const lightboxClose = document.getElementById('lightbox-close');
-
-            const allProjectImages = document.querySelectorAll('.project-item img');
-            allProjectImages.forEach(img => {
-                img.addEventListener('click', function() {
-                    const imgSrc = this.src;
-                    const imgTitle = this.closest('.project-item').querySelector('h3').innerText;
-                    
-                    lightboxImg.src = imgSrc;
-                    lightboxCaption.innerText = imgTitle;
-                    
-                    lightboxModal.classList.remove('hidden');
-                    setTimeout(() => {
-                        lightboxModal.classList.remove('opacity-0');
-                        lightboxImg.classList.remove('scale-95');
-                        lightboxImg.classList.add('scale-100');
-                    }, 10);
-                });
-            });
-
-            function closeLightbox() {
-                lightboxModal.classList.add('opacity-0');
-                lightboxImg.classList.remove('scale-100');
-                lightboxImg.classList.add('scale-95');
-                setTimeout(() => { lightboxModal.classList.add('hidden'); }, 300);
-            }
-
-            lightboxClose.addEventListener('click', closeLightbox);
-            lightboxModal.addEventListener('click', function(e) {
-                if(e.target === lightboxModal || e.target.tagName === 'DIV') { closeLightbox(); }
-            });
-        });
-        let currentAlbum = [];
-        let currentIndex = 0;
-
-        // Hàm mở Album
-        function openAlbum(albumId) {
-            const albumContainer = document.getElementById(albumId);
-            const images = albumContainer.querySelectorAll('[data-src]');
-            
-            // Thu thập danh sách ảnh trong mục
-            currentAlbum = Array.from(images).map(img => ({
-                src: img.getAttribute('data-src'),
-                caption: img.getAttribute('data-cap')
-            }));
-            
-            currentIndex = 0;
-            updateLightbox();
-        }
-
-        // Hàm cập nhật nội dung Lightbox
-        function updateLightbox() {
-            const modal = document.getElementById('lightbox-modal');
-            const img = document.getElementById('lightbox-img');
-            const caption = document.getElementById('lightbox-caption');
-            
-            img.src = currentAlbum[currentIndex].src;
-            caption.innerText = currentAlbum[currentIndex].caption;
-            
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                img.classList.add('scale-100');
-            }, 10);
-        }
-
-        // Sự kiện bấm vào ảnh trong Lightbox để chuyển sang ảnh tiếp theo
-        document.getElementById('lightbox-img').addEventListener('click', function(e) {
-            e.stopPropagation(); // Ngăn đóng modal khi bấm vào ảnh
-            currentIndex = (currentIndex + 1) % currentAlbum.length;
-            updateLightbox();
-        });
+            });  
+        });   
     </script>
 </body>
 </html>
